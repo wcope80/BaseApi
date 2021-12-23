@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using BaseApi.Business.Models;
+using BaseApi.Business.Interfaces;
+using System.Threading.Tasks;
 
 namespace BaseApi.Controllers
 {
@@ -6,29 +9,25 @@ namespace BaseApi.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IWeatherService _weatherService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherService weatherService)
         {
             _logger = logger;
+            _weatherService = weatherService;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
-            _logger.LogInformation("GetWeatherForecast");
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            _logger.LogInformation("GetWeatherForecast()");
+            var result = await _weatherService.GetWeatherAsync();
+            return result;
+
+            
         }
     }
 }

@@ -1,4 +1,6 @@
 using Serilog;
+using BaseApi.Business.Interfaces;
+using BaseApi.Business.Services;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -14,6 +16,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .ReadFrom.Configuration(ctx.Configuration));
 
 // Add services to the container.
+builder.Services.AddScoped<IWeatherService, WeatherService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

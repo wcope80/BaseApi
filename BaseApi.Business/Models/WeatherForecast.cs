@@ -1,4 +1,4 @@
-namespace BaseApi
+namespace BaseApi.Business.Models
 {
     public class WeatherForecast
     {
