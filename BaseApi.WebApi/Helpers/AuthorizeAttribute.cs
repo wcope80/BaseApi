@@ -1,8 +1,8 @@
-namespace BaseApi.Helpers;
+namespace BaseApi.WebApi.Helpers;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using BaseApi.Models;
+using BaseApi.WebApi.Models;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class AuthorizeAttribute : Attribute, IAuthorizationFilter

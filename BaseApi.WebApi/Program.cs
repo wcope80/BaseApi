@@ -1,9 +1,9 @@
 using Serilog;
 using BaseApi.Business.Interfaces;
 using BaseApi.Business.Services;
-using BaseApi.Models;
-using BaseApi.Services;
-using BaseApi.Helpers;
+using BaseApi.WebApi.Models;
+using BaseApi.WebApi.Services;
+using BaseApi.WebApi.Helpers;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()

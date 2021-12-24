@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BaseApi.Services;
-using BaseApi.Models;
-using BaseApi.Helpers;
+using BaseApi.WebApi.Services;
+using BaseApi.WebApi.Models;
+using BaseApi.WebApi.Helpers;
 
-namespace BaseApi.Controllers
+namespace BaseApi.Api.Controllers
 {
     public class UsersController : Controller
     {

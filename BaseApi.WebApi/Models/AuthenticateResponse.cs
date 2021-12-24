@@ -1,4 +1,4 @@
-namespace BaseApi.Models;
+namespace BaseApi.WebApi.Models;
 
 public class AuthenticateResponse
 {

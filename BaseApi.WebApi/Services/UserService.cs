@@ -1,11 +1,11 @@
-namespace BaseApi.Services;
+namespace BaseApi.WebApi.Services;
 
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BaseApi.Models;
+using BaseApi.WebApi.Models;
 
 public interface IUserService
 {

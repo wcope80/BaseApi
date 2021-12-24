@@ -1,11 +1,11 @@
-namespace BaseApi.Helpers;
+namespace BaseApi.WebApi.Helpers;
 
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using BaseApi.Services;
-using BaseApi.Models;
+using BaseApi.WebApi.Services;
+using BaseApi.WebApi.Models;
 
 public class JwtMiddleware
 {
