@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\BaseApi.Business\BaseApi.Business.csproj" />
+		<ProjectReference Include="..\BaseApi.Shared\BaseApi.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

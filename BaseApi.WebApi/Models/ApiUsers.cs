@@ -2,5 +2,5 @@
 
 public class ApiUsers
 {
-    public User[] Users { get; set; }
+    public User[] Users { get; set; } = new User[0];
 }
