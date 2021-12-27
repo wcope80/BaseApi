@@ -55,7 +55,6 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Description = "",
     });
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -70,7 +69,6 @@ builder.Services.AddSwaggerGen(c =>
                         new string[] {}
                     }
                 });
-
 });
 
 var app = builder.Build();

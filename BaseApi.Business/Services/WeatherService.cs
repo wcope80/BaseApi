@@ -17,8 +17,12 @@ namespace BaseApi.Business.Services
         public async Task<IEnumerable<WeatherForecast>> GetWeatherAsync()
         {
             _logger.LogInformation("WeatherService.GetWeatherAsync");
-            return await _weatherRepository.GetWeatherForecastsAsync();
-            
+            return await _weatherRepository.GetWeatherForecastsAsync();            
+        }
+        public async Task<WeatherForecast> GetWeatherForecastByIdAsync(int id)
+        {
+            _logger.LogInformation("WeatherService.GetWeatherByIdAync");
+            return await _weatherRepository.GetWeatherForecastByIdAsync(id);
         }
     }
 }

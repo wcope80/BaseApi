@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using BaseApi.Shared.Entities;
 using BaseApi.Business.Interfaces;
-
 namespace BaseApi.WebApi.Controllers
 {
     [ApiController]
@@ -17,11 +16,18 @@ namespace BaseApi.WebApi.Controllers
             _weatherService = weatherService;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet]
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
-           var weather = await _weatherService.GetWeatherAsync();
-           return weather;
+            var weather = await _weatherService.GetWeatherAsync();
+            return weather;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<WeatherForecast> Get(int id)
+        {
+            var weather = await _weatherService.GetWeatherForecastByIdAsync(id);
+            return weather;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using BaseApi.Data.Interfaces;
 using BaseApi.Shared.Entities;
 
-namespace BaseApi.Data;
+namespace BaseApi.Data.TestRepositories;
 
 public class TestWeatherRepository : IWeatherRepository
 {
@@ -16,6 +16,19 @@ public class TestWeatherRepository : IWeatherRepository
     public Task<List<WeatherForecast>> GetWeatherForecastsAsync()
     {
         return Task.FromResult(_weatherForecasts);
+    }
+
+    public Task<WeatherForecast> GetWeatherForecastByIdAsync(int id)
+    {
+        try
+        {
+            var weatherForecast = Task.FromResult(_weatherForecasts.FirstOrDefault(w => w.Id == id));
+            return weatherForecast;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 }
 
