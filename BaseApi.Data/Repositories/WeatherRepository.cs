@@ -1,31 +1,27 @@
 ﻿using BaseApi.Data.Interfaces;
 using BaseApi.Shared.Entities;
+using BaseApi.Data.DBContexts;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace BaseApi.Data.Repositories
 {
     public class WeatherRepository : IWeatherRepository
     {
         private readonly ILogger<WeatherRepository> _logger;
+        private readonly BaseApiContext _context;
 
-        public WeatherRepository(ILogger<WeatherRepository> logger)
+        public WeatherRepository(ILogger<WeatherRepository> logger, BaseApiContext context)
         {
             _logger = logger;
+            _context = context;
         }
-
-        private List<WeatherForecast> _weatherContext = new List<WeatherForecast>()
-        {
-            new WeatherForecast() { Id = 1, City = "Atlanta", Date = DateTime.Today, TemperatureC = 20},
-            new WeatherForecast() { Id = 2, City = "Chicago", Date = DateTime.Today, TemperatureC = 05},
-            new WeatherForecast() { Id = 3, City = "Los Angeles", Date = DateTime.Today, TemperatureC = 30},
-            new WeatherForecast() { Id = 4, City = "San Antonio", Date = DateTime.Today, TemperatureC = 28}
-        };
 
         public async Task<List<WeatherForecast>> GetWeatherForecastsAsync()
         {
             _logger.LogInformation("GetWeatherForecastsAsync");
-            return await Task.FromResult(_weatherContext);
+            var weather = await _context.WeatherForecasts.ToListAsync();
+            return weather;
         }
     }
 }

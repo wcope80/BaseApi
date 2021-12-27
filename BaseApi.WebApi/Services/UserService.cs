@@ -16,12 +16,12 @@ public interface IUserService
 
 public class UserService : IUserService
 {   
-    private readonly JWTKey _appSettings;
+    private readonly JWTKey _jwtKey;
     private readonly ApiUsers _apiUsers;
 
-    public UserService(IOptions<JWTKey> appSettings, IOptions<ApiUsers> apiUsers)
+    public UserService(IOptions<JWTKey> jwtKey, IOptions<ApiUsers> apiUsers)
     {
-        _appSettings = appSettings.Value;
+        _jwtKey = jwtKey.Value;
         _apiUsers = apiUsers.Value;
     }
 
@@ -52,7 +52,7 @@ public class UserService : IUserService
     {
         // generate token that is valid for 7 days
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+        var key = Encoding.ASCII.GetBytes(_jwtKey.Secret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
