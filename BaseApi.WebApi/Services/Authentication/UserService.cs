@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BaseApi.WebApi.Models;
+using BaseApi.WebApi.Services.Authentication.Interfaces;
 
 public interface IUserService
 {
@@ -17,17 +18,17 @@ public interface IUserService
 public class UserService : IUserService
 {   
     private readonly JWTKey _jwtKey;
-    private readonly ApiUsers _apiUsers;
+    private readonly IUserContext _userContext;
 
-    public UserService(IOptions<JWTKey> jwtKey, IOptions<ApiUsers> apiUsers)
+    public UserService(IOptions<JWTKey> jwtKey, IUserContext userContext)
     {
         _jwtKey = jwtKey.Value;
-        _apiUsers = apiUsers.Value;
+        _userContext = userContext;
     }
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model)
     {
-        var user = _apiUsers.Users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
+        var user = _userContext.Users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
 
         // return null if user not found
         if (user == null) return null;
@@ -40,12 +41,12 @@ public class UserService : IUserService
 
     public IEnumerable<User> GetAll()
     {
-        return _apiUsers.Users;
+        return _userContext.Users;
     }
 
     public User GetById(int id)
     {
-        return _apiUsers.Users.FirstOrDefault(x => x.Id == id);
+        return _userContext.Users.FirstOrDefault(x => x.Id == id);
     }
 
     private string generateJwtToken(User user)

@@ -8,6 +8,9 @@ using BaseApi.Data.Interfaces;
 using BaseApi.Data.Repositories;
 using BaseApi.Data.DBContexts;
 using BaseApi.Shared.Entities;
+using BaseApi.WebApi.Services.Authentication.Interfaces;
+using BaseApi.WebApi.Services.Authentication;
+using Microsoft.OpenApi.Models;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -35,11 +38,40 @@ builder.Services.AddScoped<IWeatherRepository, WeatherRepository>();
 
 //Contexts
 builder.Services.AddScoped(typeof(BaseApiContext));
+builder.Services.AddScoped<IUserContext, UserContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "",
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
+
+});
 
 var app = builder.Build();
 
@@ -51,13 +83,13 @@ app.UseMiddleware<JwtMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

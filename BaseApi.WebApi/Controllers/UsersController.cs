@@ -2,6 +2,7 @@
 using BaseApi.WebApi.Services;
 using BaseApi.WebApi.Models;
 using BaseApi.WebApi.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BaseApi.Api.Controllers
 {
@@ -27,6 +28,7 @@ namespace BaseApi.Api.Controllers
 
         [Authorize]
         [HttpGet("GetAll")]
+
         public IActionResult GetAll()
         {
             var users = _userService.GetAll();
