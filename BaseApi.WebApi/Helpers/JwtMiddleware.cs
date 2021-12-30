@@ -1,21 +1,24 @@
-namespace BaseApi.WebApi.Helpers;
-
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using BaseApi.WebApi.Services;
 using BaseApi.WebApi.Models;
+using BaseApi.WebApi.Services.Authentication.Interfaces;
+
+namespace BaseApi.WebApi.Helpers;
 
 public class JwtMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly JWTKey _appSettings;
+    private readonly ILogger<JwtMiddleware> _logger;
 
-    public JwtMiddleware(RequestDelegate next, IOptions<JWTKey> appSettings)
+    public JwtMiddleware(RequestDelegate next, IOptions<JWTKey> appSettings, ILogger<JwtMiddleware> logger)
     {
         _next = next;
         _appSettings = appSettings.Value;
+        _logger = logger;
+
     }
 
     public async Task Invoke(HttpContext context, IUserService userService)
@@ -52,8 +55,7 @@ public class JwtMiddleware
         }
         catch
         {
-            // do nothing if jwt validation fails
-            // user is not attached to context so request won't have access to secure routes
+            _logger.LogInformation($"AttachUserToContext failed for token { token }");
         }
     }
 }
