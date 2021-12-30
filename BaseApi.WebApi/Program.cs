@@ -1,15 +1,10 @@
 using Serilog;
-using BaseApi.Business.Interfaces;
-using BaseApi.Business.Services;
+using BaseApi.WebApi.Extensions;
+using BaseApi.Business.Extensions;
 using BaseApi.WebApi.Models;
-using BaseApi.WebApi.Services;
 using BaseApi.WebApi.Helpers;
-using BaseApi.Data.Interfaces;
-using BaseApi.Data.Repositories;
-using BaseApi.Data.DBContexts;
+using BaseApi.Data.Extensions;
 using BaseApi.Shared.Entities;
-using BaseApi.WebApi.Services.Authentication.Interfaces;
-using BaseApi.WebApi.Services.Authentication;
 using Microsoft.OpenApi.Models;
 
 Log.Logger = new LoggerConfiguration()
@@ -29,18 +24,13 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.Console()
     .ReadFrom.Configuration(ctx.Configuration));
 
-// Add services to the container.
-builder.Services.AddScoped<IWeatherService, WeatherService>();
-builder.Services.AddScoped<IUserService, UserService>();
-
-//Repositories
-builder.Services.AddScoped<IWeatherRepository, WeatherRepository>();
-
-//Contexts
-builder.Services.AddScoped(typeof(BaseApiContext));
-builder.Services.AddScoped<IUserContext, UserContext>();
+//DI
+builder.Services.AddWebApi();
+builder.Services.AddBusiness();
+builder.Services.AddData();
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -78,12 +68,8 @@ app.UseSerilogRequestLogging();
 app.UseMiddleware<JwtMiddleware>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
